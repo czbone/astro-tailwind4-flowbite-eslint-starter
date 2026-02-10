@@ -13,6 +13,9 @@ export default defineConfig({
   server: { port: 3000, host: true /* ホスティング時必須 */ },
   integrations: [react()],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['flowbite']
+    }
   }
 })
