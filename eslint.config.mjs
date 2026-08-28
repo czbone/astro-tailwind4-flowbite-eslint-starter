@@ -1,14 +1,25 @@
 import eslint from '@eslint/js'
 import typescriptParser from '@typescript-eslint/parser'
-import astroEslintParser from 'astro-eslint-parser'
+import * as astroEslintParser from 'astro-eslint-parser'
 import eslintPluginAstro from 'eslint-plugin-astro'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 export default [
+  {
+    ignores: [
+      'dist',
+      'node_modules',
+      '.github',
+      'types.generated.d.ts',
+      '.astro',
+      'src/generated',
+      '.prettierrc.mjs',
+      'eslint.config.mjs'
+    ]
+  },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  //...tseslint.configs.recommendedTypeChecked, // 厳格化
   ...eslintPluginAstro.configs['flat/recommended'],
   {
     languageOptions: {
@@ -17,7 +28,6 @@ export default [
         ...globals.node
       },
       parserOptions: {
-        //projectService: true,
         tsconfigRootDir: import.meta.dirname
       }
     },
@@ -61,8 +71,8 @@ export default [
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: process.cwd()
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname
       }
     },
     rules: {
@@ -82,13 +92,6 @@ export default [
       '@typescript-eslint/no-unsafe-argument': 'warn',
       'consistent-return': 'off',
       '@typescript-eslint/consistent-return': 'error'
-
-      // TypeScriptの厳格化
-      //'@typescript-eslint/explicit-function-return-type': 'warn',
-      //'@typescript-eslint/strict-boolean-expressions': 'warn'
     }
-  },
-  {
-    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro']
   }
 ]
